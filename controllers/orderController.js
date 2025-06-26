@@ -5,7 +5,7 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const placeOrder = async (req, res) => {
-  const frontend_url = "https://food-delivery-frontend-xi-vert.vercel.app";
+  const frontend_url = "https://food-delivery-frontend-xi-vert.vercel.app/";
 
   try {
     // Save the order to the database
