@@ -16,13 +16,9 @@ app.use(cors(
   {
     origin: "https://food-delivery-frontend-xi-vert.vercel.app",
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
-    optionsSuccessStatus: 204,
   }
 ));
-
-app.options("*", cors());
 
 connectDB();
 
