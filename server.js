@@ -12,7 +12,13 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors(
+  {
+    origin:["https://food-delivery-frontend-xi-vert.vercel.app"],
+    methods:["POST","GET"],
+    credentials:true
+  }
+));
 
 connectDB();
 
