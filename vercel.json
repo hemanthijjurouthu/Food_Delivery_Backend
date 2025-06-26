@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
       {
-        "src": "index.js",
+        "src": "server.js",
         "use": "@vercel/node",
         "config": {
           "includeFiles": ["uploads/**"]
@@ -10,12 +10,12 @@
       }
     ],
     "routes": [
-      { "src": "/api/food/(.*)", "dest": "/index.js" },
-      { "src": "/api/user/(.*)", "dest": "/index.js" },
-      { "src": "/api/cart/(.*)", "dest": "/index.js" },
-      { "src": "/api/order/(.*)", "dest": "/index.js" },
+      { "src": "/api/food/(.*)", "dest": "/server.js" },
+      { "src": "/api/user/(.*)", "dest": "/server.js" },
+      { "src": "/api/cart/(.*)", "dest": "/server.js" },
+      { "src": "/api/order/(.*)", "dest": "/server.js" },
       { "src": "/images/(.*)", "dest": "/uploads/$1" },
-      { "src": "/(.*)", "dest": "/index.js" }
+      { "src": "/(.*)", "dest": "/server.js" }
     ]
   }
   
