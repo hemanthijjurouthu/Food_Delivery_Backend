@@ -11,15 +11,35 @@ dotenv.config();
 
 const app = express();
 
+// List of allowed domains
+const allowedOrigins = [
+  'https://food-delivery-frontend-xi-vert.vercel.app',
+  'https://food-del-admin-iota.vercel.app'
+];
+
+// Dynamic CORS configuration
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? 'https://food-delivery-frontend-xi-vert.vercel.app' 
-    : '*',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin && process.env.NODE_ENV !== 'production') {
+      return callback(null, true);
+    }
+    
+    // Check if the origin is in the allowed list
+    if (allowedOrigins.includes(origin) || 
+        (process.env.NODE_ENV !== 'production' && origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
+  allowedHeaders: ['Content-Type', 'Authorization']
 };
 
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Enable preflight for all routes
 app.use(express.json());
 
 let dbConnected = false;
@@ -47,6 +67,17 @@ app.use("/images", express.static("uploads"));
 
 app.get("/", (req, res) => {
   res.send("API WORKING");
+});
+
+// Error handler for CORS
+app.use((err, req, res, next) => {
+  if (err.message === 'Not allowed by CORS') {
+    return res.status(403).json({ 
+      error: 'Access denied',
+      message: 'This origin is not allowed to access this resource'
+    });
+  }
+  next(err);
 });
 
 export default app;
