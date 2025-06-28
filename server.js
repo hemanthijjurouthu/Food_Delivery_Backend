@@ -11,20 +11,22 @@ dotenv.config();
 
 const app = express();
 
+// CORS configuration
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
+  origin: process.env.NODE_ENV === 'production'
     ? [
         'https://food-delivery-frontend-xi-vert.vercel.app',
         'https://food-del-admin-iota.vercel.app'
-      ] 
+      ]
     : '*',
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
 
+// Ensure DB is connected before processing routes
 let dbConnected = false;
 
 const ensureDbConnection = async (req, res, next) => {
@@ -41,22 +43,22 @@ const ensureDbConnection = async (req, res, next) => {
 
 app.use("/api", ensureDbConnection);
 
+// API routes
 app.use("/api/food", foodRouter);
 app.use("/api/user", userRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
 
+// Serve static files (images)
 app.use("/images", express.static("uploads"));
 
+// Test route
 app.get("/", (req, res) => {
   res.send("API WORKING");
 });
 
-export default app;
-
-if (process.env.NODE_ENV !== "production") {
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
-}
+// Start server on Render (always run server)
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
