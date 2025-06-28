@@ -15,7 +15,7 @@ const app = express();
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production'
     ? [
-        'https://food-delivery-frontend-xi-vert.vercel.app',
+        'https://food-delivery-frontend-mi0u.onrender.com',
         'https://food-del-admin-iota.vercel.app'
       ]
     : '*',
